@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Dashboard</title>
+    <link rel="stylesheet" href="Dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabaseConfig.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>TekkoMedia</h1>
+            </div>
+            <nav class="main-nav">
+                <a href="#" class="nav-link active" data-section="feed">Feed</a>
+                <a href="#" class="nav-link" data-section="profile">Profile</a>
+                <a href="#" class="nav-link" data-section="explore">Explore</a>
+                <a href="#" class="nav-link" data-section="notifications">Notifications</a>
+            </nav>
+            <div class="logout-btn">
+                <button id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-card user-card">
+                <div class="user-avatar">
+                    <img id="sidebarAvatar" src="https://via.placeholder.com/60" alt="Profile">
+                </div>
+                <div class="user-info">
+                    <h3 id="sidebarUsername">Your Name</h3>
+                    <p id="sidebarHandle">@yourhandle</p>
+                </div>
+                <div class="user-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="followersCount">0</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="followingCount">0</span>
+                        <span class="stat-label">Following</span>
+                    </div>
+                </div>
+                <button class="edit-profile-btn" id="editProfileBtn">Edit Profile</button>
+            </div>
+
+            <div class="sidebar-card">
+                <h3>Suggested Users</h3>
+                <div id="suggestedUsers" class="suggested-users">
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="feed-section" class="content-section active">
+                <div class="post-creation">
+                    <div class="post-header">
+                        <img id="postCreatorAvatar" src="https://via.placeholder.com/40" alt="You">
+                        <textarea id="postInput" placeholder="What's on your mind?" maxlength="500"></textarea>
+                    </div>
+                    <div class="post-actions">
+                        <span id="charCount">0/500</span>
+                        <button id="postBtn" class="primary-btn">Post</button>
+                    </div>
+                </div>
+
+                <div id="postsFeed" class="posts-feed">
+                </div>
+            </section>
+
+            <section id="profile-section" class="content-section">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-cover"></div>
+                        <div class="profile-info">
+                            <img id="profileAvatar" src="https://via.placeholder.com/100" alt="Profile">
+                            <div class="profile-details">
+                                <h2 id="profileName">Your Name</h2>
+                                <p id="profileHandle">@yourhandle</p>
+                                <p id="profileBio">Your bio goes here</p>
+                                <div class="profile-stats">
+                                    <div class="stat">
+                                        <span id="profilePostsCount">0</span> Posts
+                                    </div>
+                                    <div class="stat">
+                                        <span id="profileFollowersCount">0</span> Followers
+                                    </div>
+                                    <div class="stat">
+                                        <span id="profileFollowingCount">0</span> Following
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="editProfileBtn2" class="edit-profile-btn">Edit Profile</button>
+                        </div>
+                    </div>
+
+                    <div class="my-posts-section">
+                        <h3>Your Posts</h3>
+                        <div id="myPostsFeed" class="posts-feed">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="explore-section" class="content-section">
+                <div class="explore-container">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Search users...">
+                        <button id="searchBtn" class="primary-btn">Search</button>
+                    </div>
+
+                    <div id="searchResults" class="search-results">
+                    </div>
+
+                    <div id="trendingUsers" class="trending-section">
+                        <h3>Trending Users</h3>
+                        <div class="users-grid">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="notifications-section" class="content-section">
+                <div class="notifications-container">
+                    <h2>Notifications</h2>
+                    <div id="notificationsList" class="notifications-list">
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="editName">Full Name:</label>
+                    <input type="text" id="editName" maxlength="50" required>
+                </div>
+                <div class="form-group">
+                    <label for="editHandle">Handle:</label>
+                    <input type="text" id="editHandle" maxlength="30" required>
+                </div>
+                <div class="form-group">
+                    <label for="editBio">Bio:</label>
+                    <textarea id="editBio" maxlength="160" placeholder="Tell us about yourself"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editAvatar">Avatar URL:</label>
+                    <input type="url" id="editAvatar" placeholder="https://example.com/avatar.jpg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelEditBtn" class="secondary-btn">Cancel</button>
+                <button id="saveProfileBtn" class="primary-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="userProfileModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="modalUserName">User Profile</h2>
+                <button class="modal-close" id="closeUserModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-user-info">
+                    <img id="modalUserAvatar" src="https://via.placeholder.com/80" alt="User">
+                    <div class="modal-user-details">
+                        <h3 id="modalUserHandle">@user</h3>
+                        <p id="modalUserBio">User bio</p>
+                        <div class="modal-user-stats">
+                            <span id="modalUserFollowers">0 Followers</span>
+                            <span id="modalUserFollowing">0 Following</span>
+                            <span id="modalUserPostsCount">0 Posts</span>
+                        </div>
+                    </div>
+                    <button id="followUnfollowBtn" class="primary-btn">Follow</button>
+                </div>
+                <div id="modalUserPostsFeed" class="posts-feed">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="postDetailModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Post Details</h2>
+                <button class="modal-close" id="closePostModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="postDetailContent" class="post-detail-content">
+                </div>
+                <div class="comments-section">
+                    <h3>Comments</h3>
+                    <div class="comment-input">
+                        <input type="text" id="commentInput" placeholder="Write a comment..." maxlength="280">
+                        <button id="submitCommentBtn" class="primary-btn">Comment</button>
+                    </div>
+                    <div id="commentsList" class="comments-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Dashboard.js"></script>
+</body>
+</html>

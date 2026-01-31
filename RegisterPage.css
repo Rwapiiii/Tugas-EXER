@@ -13,6 +13,7 @@ body {
     background: radial-gradient(circle at top left, #0a192f, #020c1b);
     overflow: hidden;
 }
+
 header {
     position: fixed;
     top: 0;
@@ -50,14 +51,13 @@ header {
 }
 
 .nav-links a:hover {
-    color: #4ade80; 
+    color: #4ade80;
 }
 
 .nav-links .active {
-    color: #60a5fa; 
+    color: #60a5fa;
     border-bottom: 2px solid #60a5fa;
 }
-
 
 .login-card {
     background: rgba(255, 255, 255, 0.05);
@@ -70,8 +70,8 @@ header {
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
     text-align: center;
     position: relative;
+    animation: cardOpening 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
-
 
 .login-card::before {
     content: "";
@@ -88,13 +88,21 @@ h2 {
     margin-bottom: 30px;
     font-weight: 300;
     letter-spacing: 2px;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 0.4s;
+    opacity: 0;
 }
-
 
 .input-group {
     margin-bottom: 20px;
     text-align: left;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
 }
+
+
+.input-group:nth-child(3) { animation-delay: 0.6s; } 
+.input-group:nth-child(4) { animation-delay: 0.8s; }
 
 .input-group label {
     display: block;
@@ -115,10 +123,9 @@ h2 {
 }
 
 .input-group input:focus {
-    border-color: #4ade80; 
+    border-color: #4ade80;
     box-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
 }
-
 
 .login-btn {
     width: 100%;
@@ -126,13 +133,17 @@ h2 {
     margin-top: 10px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(90deg, #3b82f6, #22c55e); 
+    background: linear-gradient(90deg, #3b82f6, #22c55e);
     color: white;
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
+   
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1s;
+    opacity: 0;
 }
 
 .login-btn:hover {
@@ -141,11 +152,38 @@ h2 {
     filter: brightness(1.1);
 }
 
-
 .forgot-password {
     display: block;
     margin-top: 15px;
-    color: #eab308; 
+    color: #eab308;
     font-size: 12px;
     text-decoration: none;
+    animation: fadeInUp 0.8s ease forwards;
+    animation-delay: 1.2s;
+    opacity: 0;
+}
+
+
+@keyframes cardOpening {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+        filter: blur(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
